@@ -1,0 +1,11 @@
+{
+  "extends": ["@ribeirogab/eslint-config/node"],
+  "overrides": [
+    {
+      "files": ["tsup.config.ts"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    }
+  ]
+}
