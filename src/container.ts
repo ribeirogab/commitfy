@@ -1,21 +1,26 @@
-import { GenerateCommitService, SetupService } from './commands';
+import { GenerateCommit, GetVersion, Setup } from './commands';
 import type { Providers } from './interfaces';
 import { OpenAIProvider } from './providers';
-import { EnvUtils, execUtils, readlineUtils } from './utils';
+import { AppUtils, EnvUtils, InputUtils, ProcessUtils } from './utils';
 
-const envConfig = new EnvUtils();
+const processUtils = new ProcessUtils();
+const inputUtils = new InputUtils();
+const appUtils = new AppUtils();
+const envUtils = new EnvUtils(appUtils);
 
 const providers: Providers = {
-  openai: new OpenAIProvider(envConfig, readlineUtils),
+  openai: new OpenAIProvider(envUtils, inputUtils),
 };
 
-const setup = new SetupService(providers, readlineUtils, envConfig);
+const setup = new Setup(providers, inputUtils);
 
-const generateCommit = new GenerateCommitService(
+const getVersion = new GetVersion(appUtils);
+
+const generateCommit = new GenerateCommit(
   providers,
-  envConfig,
-  execUtils,
-  readlineUtils,
+  envUtils,
+  processUtils,
+  inputUtils,
 );
 
-export { setup, generateCommit };
+export { setup, getVersion, generateCommit };

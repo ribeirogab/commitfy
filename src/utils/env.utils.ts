@@ -1,28 +1,26 @@
 import * as fs from 'node:fs';
-import * as os from 'node:os';
-import * as path from 'node:path';
 
-import { type Env, EnvUtils as EnvUtilsInterface } from '../interfaces';
-
-const HOME_DIRECTORY = os.homedir();
-const ENV_FILE_PATH = path.resolve(HOME_DIRECTORY, '.commit-ai');
+import type { Env, EnvUtils as EnvUtilsInterface } from '../interfaces';
+import type { AppUtils } from './app.utils';
 
 export class EnvUtils implements EnvUtilsInterface {
+  constructor(private readonly appUtils: AppUtils) {}
+
   public get(): Env {
-    const currentConfig = fs.existsSync(ENV_FILE_PATH)
-      ? fs
-          .readFileSync(ENV_FILE_PATH, 'utf-8')
-          .split('\n')
-          .filter((line) => line.trim() !== '' && !line.trim().startsWith('#'))
-          .reduce((variables, line) => {
-            const [key, value] = line.split('=');
-            variables[key] = value;
+    if (!fs.existsSync(this.appUtils.envFilePath)) {
+      return {};
+    }
 
-            return variables;
-          }, {} as Record<string, string>)
-      : {};
+    return fs
+      .readFileSync(this.appUtils.envFilePath, 'utf-8')
+      .split('\n')
+      .filter((line) => line.trim() !== '' && !line.trim().startsWith('#'))
+      .reduce((variables, line) => {
+        const [key, value] = line.split('=');
+        variables[key] = value;
 
-    return currentConfig as Env;
+        return variables;
+      }, {} as Record<string, string>);
   }
 
   public update(updates: Partial<Env>) {
@@ -32,6 +30,6 @@ export class EnvUtils implements EnvUtilsInterface {
       .map(([key, value]) => `${key}=${value}`)
       .join('\n');
 
-    fs.writeFileSync(ENV_FILE_PATH, fileContent, 'utf8');
+    fs.writeFileSync(this.appUtils.envFilePath, fileContent, 'utf8');
   }
 }

@@ -1,35 +1,23 @@
-import {
-  type EnvUtils,
-  Provider,
-  ProviderEnum,
-  type ReadlineUtils,
-} from '../interfaces';
+import type { InputUtils, Provider, ProviderEnum } from '../interfaces';
 
-export class SetupService {
+export class Setup {
   constructor(
     private readonly providers: { [ProviderEnum.OpenAI]: Provider },
-    private readonly readlineUtils: ReadlineUtils,
-    private readonly envConfig: EnvUtils,
+    private readonly inputUtils: InputUtils,
   ) {}
 
   public async execute(): Promise<void> {
-    const providerIndex = await this.readlineUtils.askQuestion(
-      `Which provider do you want to use?\n${Object.keys(this.providers)
-        .map((name, index) => `[${index}] ${name}`)
-        .join('\n')}\n`,
-    );
+    const choices = Object.keys(this.providers);
 
-    const providerEnum = Object.values(ProviderEnum)[parseInt(providerIndex)];
-    const provider = this.providers[providerEnum];
+    const providerKey = await this.inputUtils.prompt({
+      message: 'Choose your AI provider',
+      type: 'list',
+      choices,
+    });
 
-    if (!provider) {
-      console.error('Invalid provider choice. Please try again.');
-
-      return this.execute();
-    }
+    const provider = this.providers[providerKey];
 
     await provider.setup();
-    this.envConfig.update({ PROVIDER: providerEnum });
 
     process.exit(0);
   }

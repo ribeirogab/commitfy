@@ -3,7 +3,7 @@ export enum ProviderEnum {
 }
 
 export interface Provider {
-  generateCommitMessage({ diff }: { diff: string }): Promise<string>;
+  generateCommitMessages({ diff }: { diff: string }): Promise<string[]>;
   setup(): Promise<void>;
 }
 

@@ -1,13 +1,19 @@
 import { OpenAI } from 'openai';
 
-import { type EnvUtils, Provider, type ReadlineUtils } from '../interfaces';
+import {
+  type EnvUtils,
+  InputTypeEnum,
+  type InputUtils,
+  type Provider,
+  ProviderEnum,
+} from '../interfaces';
 
 export class OpenAIProvider implements Provider {
   private openai: OpenAI;
 
   constructor(
     private readonly envUtils: EnvUtils,
-    private readonly readlineUtils: ReadlineUtils,
+    private readonly inputUtils: InputUtils,
   ) {}
 
   private get client() {
@@ -26,13 +32,14 @@ export class OpenAIProvider implements Provider {
     return this.openai;
   }
 
-  public async generateCommitMessage({
+  public async generateCommitMessages({
     diff,
   }: {
     diff: string;
-  }): Promise<string> {
+  }): Promise<string[]> {
     try {
       const prompt = `Generate a concise and clear commit message using the commitizen format (e.g., feat, chore, refactor, etc.) for the following code changes. The message should be at most 72 characters long:`;
+      const n = Number(this.envUtils.get().OPENAI_N_COMMITS) || 2;
 
       const chatCompletion = await this.client.chat.completions.create({
         messages: [
@@ -41,16 +48,18 @@ export class OpenAIProvider implements Provider {
         ],
         model: 'gpt-3.5-turbo',
         max_tokens: 50,
-        n: 1,
+        n,
       });
 
-      const commitMessage = chatCompletion.choices[0].message.content;
+      const commitMessages = chatCompletion.choices.map(
+        (choice) => choice.message.content,
+      );
 
-      if (!commitMessage) {
-        throw new Error('Failed to generate commit message');
+      if (!commitMessages) {
+        throw new Error('Failed to generate commit messages');
       }
 
-      return commitMessage;
+      return commitMessages;
     } catch (error) {
       console.error('Failed to generate commit message');
 
@@ -59,12 +68,38 @@ export class OpenAIProvider implements Provider {
   }
 
   public async setup(): Promise<void> {
-    const apiKey = await this.readlineUtils.askQuestion(
-      'Enter your OpenAI API key: ',
-    );
+    const env = this.envUtils.get();
 
-    this.envUtils.update({ OPENAI_API_KEY: apiKey });
+    const apiKey = await this.inputUtils.prompt({
+      message: 'Enter your OpenAI API key:',
+      default: env.OPENAI_API_KEY,
+      type: InputTypeEnum.Input,
+    });
 
-    console.log('OpenAI setup complete!');
+    const numberOfCommits = await this.inputUtils.prompt({
+      message: 'Enter the number of commits to generate:',
+      default: String(env.OPENAI_N_COMMITS) || '2',
+      type: InputTypeEnum.Input,
+    });
+
+    this.envUtils.update({
+      ...env,
+      OPENAI_N_COMMITS: Number(numberOfCommits),
+      PROVIDER: ProviderEnum.OpenAI,
+      OPENAI_API_KEY: apiKey,
+    });
+
+    await this.test();
+
+    console.log('\x1b[32m✓\x1b[0m', 'OpenAI setup successfully completed');
+  }
+
+  private async test(): Promise<void> {
+    await this.client.chat.completions.create({
+      messages: [{ role: 'user', content: 'hello!' }],
+      model: 'gpt-3.5-turbo',
+      max_tokens: 10,
+      n: 1,
+    });
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "commitfy",
-  "version": "0.0.2",
+  "version": "0.0.8",
   "main": "lib/index.js",
   "repository": "https://github.com/ribeirogab/free-translate.git",
   "author": "ribeirogab <ribeirogabx@gmail.com>",
@@ -14,8 +14,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "setup": "node lib/commands/setup.js",
-    "generate-commit": "node lib/commands/generate-commit.js"
+    "publish:npm": "npm run build && npm publish"
   },
   "bin": {
     "commitfy": "bin/cli.js",
@@ -29,6 +28,7 @@
     "access": "public"
   },
   "dependencies": {
+    "inquirer": "^10.1.6",
     "openai": "^4.54.0"
   },
   "devDependencies": {

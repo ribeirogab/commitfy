@@ -3,8 +3,7 @@ import type { ProviderEnum } from '../provider';
 export type Env = {
   PROVIDER?: ProviderEnum;
   OPENAI_API_KEY?: string;
-  HOME_DIRECTORY: string;
-  ENV_FILE_PATH: string;
+  OPENAI_N_COMMITS?: number;
 };
 
 export interface EnvUtils {
