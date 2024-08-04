@@ -1,6 +1,6 @@
 {
   "name": "commitfy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/container.js",
   "repository": "https://github.com/ribeirogab/free-translate.git",
   "author": "ribeirogab <ribeirogabx@gmail.com>",
@@ -16,6 +16,17 @@
     "build": "tsup",
     "setup": "node lib/commands/setup.js",
     "generate-commit": "node lib/commands/generate-commit.js"
+  },
+  "bin": {
+    "commitfy": "bin/cli.js",
+    "cfy": "bin/cli.js"
+  },
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "openai": "^4.54.0"
