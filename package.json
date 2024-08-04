@@ -1,7 +1,7 @@
 {
   "name": "commitfy",
   "version": "0.0.2",
-  "main": "lib/container.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/ribeirogab/free-translate.git",
   "author": "ribeirogab <ribeirogabx@gmail.com>",
   "license": "MIT",

@@ -2,12 +2,12 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 
-import { type Env, EnvConfig as EnvConfigInterface } from '../interfaces';
+import { type Env, EnvUtils as EnvUtilsInterface } from '../interfaces';
 
 const HOME_DIRECTORY = os.homedir();
 const ENV_FILE_PATH = path.resolve(HOME_DIRECTORY, '.commit-ai');
 
-export class EnvConfig implements EnvConfigInterface {
+export class EnvUtils implements EnvUtilsInterface {
   public get(): Env {
     const currentConfig = fs.existsSync(ENV_FILE_PATH)
       ? fs

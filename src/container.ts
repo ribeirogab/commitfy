@@ -1,29 +1,21 @@
-import { EnvConfig, execConfig, readlineConfig } from './configs';
+import { GenerateCommitService, SetupService } from './commands';
 import type { Providers } from './interfaces';
 import { OpenAIProvider } from './providers';
-import { GenerateCommitMessageService, SetupService } from './services';
+import { EnvUtils, execUtils, readlineUtils } from './utils';
 
-const envConfig = new EnvConfig();
+const envConfig = new EnvUtils();
 
 const providers: Providers = {
-  openai: new OpenAIProvider(envConfig, readlineConfig),
+  openai: new OpenAIProvider(envConfig, readlineUtils),
 };
 
-const setupService = new SetupService(providers, readlineConfig, envConfig);
+const setup = new SetupService(providers, readlineUtils, envConfig);
 
-const generateCommitMessageService = new GenerateCommitMessageService(
+const generateCommit = new GenerateCommitService(
   providers,
   envConfig,
-  execConfig,
-  readlineConfig,
+  execUtils,
+  readlineUtils,
 );
 
-export function setup() {
-  return setupService.execute.bind(setupService)();
-}
-
-export function generateCommit() {
-  return generateCommitMessageService.execute.bind(
-    generateCommitMessageService,
-  )();
-}
+export { setup, generateCommit };

@@ -7,7 +7,7 @@ export type Env = {
   ENV_FILE_PATH: string;
 };
 
-export interface EnvConfig {
+export interface EnvUtils {
   update(updates: Partial<Env>): void;
   get(): Env;
 }

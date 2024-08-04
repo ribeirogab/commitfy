@@ -1,6 +1,6 @@
 import * as readline from 'node:readline';
 
-import type { ReadlineConfig } from '../interfaces';
+import type { ReadlineUtils } from '../interfaces';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,6 +15,6 @@ const askQuestion = (question: string): Promise<string> => {
   });
 };
 
-export const readlineConfig: ReadlineConfig = {
+export const readlineUtils: ReadlineUtils = {
   askQuestion,
 };

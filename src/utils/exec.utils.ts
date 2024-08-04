@@ -1,8 +1,8 @@
 import { exec } from 'node:child_process';
 
-import type { ExecConfig } from '../interfaces';
+import type { ExecUtils } from '../interfaces';
 
-export const execConfig: ExecConfig = (command: string): Promise<string> => {
+export const execUtils: ExecUtils = (command: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
