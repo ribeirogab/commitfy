@@ -1,13 +1,13 @@
 import { OpenAI } from 'openai';
 
-import { type EnvConfig, Provider, type ReadlineConfig } from '../interfaces';
+import { type EnvUtils, Provider, type ReadlineUtils } from '../interfaces';
 
 export class OpenAIProvider implements Provider {
   private openai: OpenAI;
 
   constructor(
-    private readonly envConfig: EnvConfig,
-    private readonly readlineConfig: ReadlineConfig,
+    private readonly envUtils: EnvUtils,
+    private readonly readlineUtils: ReadlineUtils,
   ) {}
 
   private get client() {
@@ -15,7 +15,7 @@ export class OpenAIProvider implements Provider {
       return this.openai;
     }
 
-    const env = this.envConfig.get();
+    const env = this.envUtils.get();
 
     if (!env.OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is required');
@@ -59,11 +59,11 @@ export class OpenAIProvider implements Provider {
   }
 
   public async setup(): Promise<void> {
-    const apiKey = await this.readlineConfig.askQuestion(
+    const apiKey = await this.readlineUtils.askQuestion(
       'Enter your OpenAI API key: ',
     );
 
-    this.envConfig.update({ OPENAI_API_KEY: apiKey });
+    this.envUtils.update({ OPENAI_API_KEY: apiKey });
 
     console.log('OpenAI setup complete!');
   }
