@@ -1,8 +1,8 @@
 {
   "name": "commitfy",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "lib/index.js",
-  "repository": "https://github.com/ribeirogab/free-translate.git",
+  "repository": "https://github.com/ribeirogab/commitfy.git",
   "author": "ribeirogab <ribeirogabx@gmail.com>",
   "license": "MIT",
   "description": "✨ Make commits easier and faster using AI.",
