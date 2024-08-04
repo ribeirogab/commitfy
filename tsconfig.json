@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./lib",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",

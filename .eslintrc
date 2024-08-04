@@ -6,6 +6,12 @@
       "rules": {
         "import/no-default-export": "off"
       }
+    },
+    {
+      "files": ["bin/*"],
+      "rules": {
+        "no-console": "off"
+      }
     }
   ]
 }

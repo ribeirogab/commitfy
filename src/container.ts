@@ -9,15 +9,21 @@ const providers: Providers = {
   openai: new OpenAIProvider(envConfig, readlineConfig),
 };
 
-export const setupService = new SetupService(
-  providers,
-  readlineConfig,
-  envConfig,
-);
+const setupService = new SetupService(providers, readlineConfig, envConfig);
 
-export const generateCommitMessageService = new GenerateCommitMessageService(
+const generateCommitMessageService = new GenerateCommitMessageService(
   providers,
   envConfig,
   execConfig,
   readlineConfig,
 );
+
+export function setup() {
+  return setupService.execute.bind(setupService)();
+}
+
+export function generateCommit() {
+  return generateCommitMessageService.execute.bind(
+    generateCommitMessageService,
+  )();
+}

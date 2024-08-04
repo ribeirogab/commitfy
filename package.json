@@ -1,9 +1,11 @@
 {
   "name": "commit-ai",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "lib/container.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "setup": "node lib/commands/setup.js",
+    "generate-commit": "node lib/commands/generate-commit.js"
   },
   "keywords": [],
   "author": "",

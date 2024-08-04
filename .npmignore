@@ -1,0 +1,15 @@
+.git
+.vscode
+tests
+test.*
+
+.editorconfig
+.eslintignore
+.eslintrc*
+.gitignore
+prettier.config.js
+tsup.config.ts
+tsconfig.json
+.DS_Store
+src
+executables
