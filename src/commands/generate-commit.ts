@@ -20,6 +20,12 @@ export class GenerateCommit {
   }
 
   public async execute(): Promise<void> {
+    if (!this.provider) {
+      console.error(
+        'commitfy: provider not found\nRun `commitfy setup` to set up the provider.',
+      );
+    }
+
     const diff = await this.processUtils.exec('git diff --cached');
 
     if (!diff) {
