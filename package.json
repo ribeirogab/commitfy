@@ -1,16 +1,18 @@
 {
   "name": "commitfy",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "lib/index.js",
   "repository": "https://github.com/ribeirogab/free-translate.git",
   "author": "ribeirogab <ribeirogabx@gmail.com>",
   "license": "MIT",
-  "description": "🤖 A CLI tool that generates commit messages using AI.",
+  "description": "✨ Make commits easier and faster using AI.",
   "keywords": [
-    "openai",
-    "commit",
     "ai",
-    "commit-ai"
+    "commit",
+    "commits",
+    "chatgpt",
+    "openai",
+    "commitfy"
   ],
   "scripts": {
     "build": "tsup",

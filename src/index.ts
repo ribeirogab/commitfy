@@ -1,9 +1,10 @@
-import { generateCommit, getVersion, setup } from './container';
+import { generateCommit, getVersion, help, setup } from './container';
 
 export enum CommandEnum {
   GetVersion = '-v, --v, -version, --version',
-  GenerateCommit = 'generate-commit',
+  GenerateCommit = 'run, generate-commit',
   Setup = 'setup',
+  Help = '--help',
 }
 
 const COMMAND_MAPPER = [
@@ -20,6 +21,10 @@ const COMMAND_MAPPER = [
       command.trim(),
     ),
     command: generateCommit,
+  },
+  {
+    match: CommandEnum.Help.split(',').map((command) => command.trim()),
+    command: help,
   },
 ];
 
@@ -38,6 +43,7 @@ export const run = async () => {
     return matchedCommand.command.execute();
   }
 
-  console.error('Invalid command. Please try again.');
+  console.error(`commitfy: '${command}' is not a commitfy command.`);
+  console.log(`See 'commitfy --help'.`);
   process.exit(0);
 };

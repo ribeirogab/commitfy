@@ -4,6 +4,6 @@ export class GetVersion {
   constructor(private appUtils: AppUtils) {}
 
   public execute(): void {
-    console.log(`Commitfy version v${this.appUtils.version}`);
+    console.log(`${this.appUtils.name} version v${this.appUtils.version}`);
   }
 }

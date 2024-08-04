@@ -1,4 +1,4 @@
-import { GenerateCommit, GetVersion, Setup } from './commands';
+import { GenerateCommit, GetVersion, Help, Setup } from './commands';
 import type { Providers } from './interfaces';
 import { OpenAIProvider } from './providers';
 import { AppUtils, EnvUtils, InputUtils, ProcessUtils } from './utils';
@@ -14,6 +14,8 @@ const providers: Providers = {
 
 const setup = new Setup(providers, inputUtils);
 
+const help = new Help();
+
 const getVersion = new GetVersion(appUtils);
 
 const generateCommit = new GenerateCommit(
@@ -23,4 +25,4 @@ const generateCommit = new GenerateCommit(
   inputUtils,
 );
 
-export { setup, getVersion, generateCommit };
+export { setup, help, getVersion, generateCommit };
