@@ -1,4 +1,5 @@
 import {
+  type AppUtils,
   type EnvUtils,
   type InputUtils,
   InputUtilsCustomChoiceEnum,
@@ -15,21 +16,23 @@ export class GenerateCommit {
     private readonly envUtils: EnvUtils,
     private readonly processUtils: ProcessUtils,
     private readonly inputUtils: InputUtils,
+    private readonly appUtils: AppUtils,
   ) {
     this.provider = this.providers[this.envUtils.get().PROVIDER];
   }
 
   public async execute(): Promise<void> {
     if (!this.provider) {
-      console.error(
-        'commitfy: provider not found\nRun `commitfy setup` to set up the provider.',
-      );
+      this.appUtils.logger.error('AI provider not set.');
+      console.log("Run 'commitfy setup' to set up the provider.");
+
+      process.exit(0);
     }
 
     const diff = await this.processUtils.exec('git diff --cached');
 
     if (!diff) {
-      console.error('No changes to commit');
+      console.error(`${this.appUtils.name}: no changes to commit.`);
 
       process.exit(0);
     }

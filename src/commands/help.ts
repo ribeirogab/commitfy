@@ -3,25 +3,26 @@ export class Help {
     const commands = [
       {
         command: 'cfy',
-        description: 'Create and run a new container from an image',
+        description: 'Create commit messages and show on the terminal',
       },
       {
         command: 'cfy setup',
         description:
-          'Responsible for initial setup and updating configurations',
+          'Responsible for initial setup and updating configurations.',
       },
       {
         command: 'cfy --help',
-        description: 'List all commands and their usage',
+        description:
+          'List all commands and information of files and providers.',
       },
-      { command: 'cfy --version', description: 'Output the current version' },
+      { command: 'cfy --version', description: 'Output the current version.' },
     ];
 
     const directoriesAndFiles = [
-      { path: '~/.commitfy', description: 'Directory for configs' },
+      { path: '~/.commitfy', description: 'Directory for all configs.' },
       {
         path: '~/.commitfy/.env',
-        description: 'File for environment variables',
+        description: 'File for environment variables.',
       },
     ];
 
@@ -36,5 +37,12 @@ export class Help {
     directoriesAndFiles.forEach(({ path, description }) => {
       console.log(`  ${path.padEnd(25)} ${description}`);
     });
+
+    console.log('\nProviders:');
+    console.log(' OpenAI:');
+
+    console.log(
+      '  - API key required. Get it from https://platform.openai.com/account/api-keys.',
+    );
   }
 }

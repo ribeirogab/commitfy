@@ -1,32 +1,33 @@
 import { generateCommit, getVersion, help, setup } from './container';
 
-export enum CommandEnum {
-  GetVersion = '-v, --v, -version, --version',
-  GenerateCommit = 'run, generate-commit',
-  Setup = 'setup',
-  Help = '--help',
+enum CommandEnum {
+  GenerateCommit,
+  GetVersion,
+  Setup,
+  Help,
 }
 
-const COMMAND_MAPPER = [
-  {
-    match: CommandEnum.Setup.split(',').map((command) => command.trim()),
-    command: setup,
-  },
-  {
-    match: CommandEnum.GetVersion.split(',').map((command) => command.trim()),
-    command: getVersion,
-  },
-  {
-    match: CommandEnum.GenerateCommit.split(',').map((command) =>
-      command.trim(),
-    ),
+const COMMAND_MAPPER = {
+  [CommandEnum.GenerateCommit]: {
+    match: ['run', 'generate-commit'],
     command: generateCommit,
   },
-  {
-    match: CommandEnum.Help.split(',').map((command) => command.trim()),
+
+  [CommandEnum.GetVersion]: {
+    match: ['-v', '--v', '-version', '--version'],
+    command: getVersion,
+  },
+
+  [CommandEnum.Setup]: {
+    match: ['setup'],
+    command: setup,
+  },
+
+  [CommandEnum.Help]: {
+    match: ['--help'],
     command: help,
   },
-];
+};
 
 export const run = async () => {
   const command = process.argv[2];
@@ -35,7 +36,7 @@ export const run = async () => {
     return generateCommit.execute();
   }
 
-  const matchedCommand = COMMAND_MAPPER.find(({ match }) =>
+  const matchedCommand = Object.values(COMMAND_MAPPER).find(({ match }) =>
     match.includes(command),
   );
 
