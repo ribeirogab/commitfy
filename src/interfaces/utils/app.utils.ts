@@ -16,6 +16,8 @@ export interface AppUtils {
   version: string;
   name: string;
   logger: {
+    /** Log without a prefix */
+    message: LoggerFunction;
     error: LoggerFunction;
     warn: LoggerFunction;
     log: LoggerFunction;

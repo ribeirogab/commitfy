@@ -18,11 +18,12 @@ export class AppUtils implements AppUtilsInterface {
 
   public readonly logger: AppUtilsInterface['logger'] = {
     error: (message, ...params) =>
-      console.error(`${this.name}:`, ...[message, ...params]),
+      console.error(`${this.name}:`, message, ...params),
     warn: (message, ...params) =>
-      console.warn(`${this.name}:`, ...[message, ...params]),
+      console.warn(`${this.name}:`, message, ...params),
     log: (message, ...params) =>
-      console.log(`${this.name}:`, ...[message, ...params]),
+      console.log(`${this.name}:`, message, ...params),
+    message: (message, ...params) => console.log(message, ...params),
   };
 
   constructor() {
