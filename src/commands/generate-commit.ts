@@ -29,7 +29,9 @@ export class GenerateCommit {
       process.exit(0);
     }
 
-    const diff = await this.processUtils.exec('git diff --cached');
+    const diff = await this.processUtils.exec('git diff --cached', {
+      showStdout: false,
+    });
 
     if (!diff) {
       console.error(`${this.appUtils.name}: no changes to commit.`);
@@ -57,7 +59,9 @@ export class GenerateCommit {
       return this.execute();
     }
 
-    await this.processUtils.exec(`git commit -m "${response}"`);
+    await this.processUtils.exec(`git commit -m "${response}"`, {
+      showStdout: true,
+    });
 
     process.exit(0);
   }
