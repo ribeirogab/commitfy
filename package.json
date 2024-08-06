@@ -16,7 +16,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "publish:npm": "npm run build && npm publish"
+    "publish:npm": "npm run build && npm publish",
+    "cfy": "npm run build -- --silent && node bin/cli.js"
   },
   "bin": {
     "commitfy": "bin/cli.js",
