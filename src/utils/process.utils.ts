@@ -21,6 +21,14 @@ export class ProcessUtils implements ProcessUtilsInterface {
         } else {
           resolve(stdout);
         }
+
+        process.stdout.on('data', (data) => {
+          console.log(data.toString());
+        });
+
+        process.stderr.on('data', (data) => {
+          console.error(data.toString());
+        });
       });
     });
   }
