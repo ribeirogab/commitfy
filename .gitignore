@@ -2,3 +2,5 @@ node_modules
 executables
 package-lock.json
 lib
+tmp/*
+!tmp/.gitkeep

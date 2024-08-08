@@ -11,11 +11,12 @@ type LoggerFunction = (
 
 export interface AppUtils {
   projectConfigDirectory: string;
-  homeDirectory: string;
   envFilePath: string;
   version: string;
   name: string;
   logger: {
+    /** Log without a prefix */
+    message: LoggerFunction;
     error: LoggerFunction;
     warn: LoggerFunction;
     log: LoggerFunction;

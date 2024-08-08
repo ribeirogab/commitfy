@@ -18,13 +18,16 @@ export class GenerateCommit {
     private readonly inputUtils: InputUtils,
     private readonly appUtils: AppUtils,
   ) {
-    this.provider = this.providers[this.envUtils.get().PROVIDER];
+    this.provider = this.providers[this.envUtils.variables.PROVIDER];
   }
 
   public async execute(): Promise<void> {
     if (!this.provider) {
       this.appUtils.logger.error('AI provider not set.');
-      console.log("Run 'commitfy setup' to set up the provider.");
+
+      this.appUtils.logger.message(
+        "Run 'commitfy setup' to set up the provider.",
+      );
 
       process.exit(0);
     }
@@ -34,7 +37,7 @@ export class GenerateCommit {
     });
 
     if (!diff) {
-      console.error(`${this.appUtils.name}: no changes to commit.`);
+      this.appUtils.logger.error('No changes to commit.');
 
       process.exit(0);
     }
