@@ -7,9 +7,13 @@ test.*
 .eslintignore
 .eslintrc*
 .gitignore
+.DS_Store
+
 prettier.config.js
 tsup.config.ts
 tsconfig.json
-.DS_Store
+vitest.config.ts
+
 src
-executables
+tmp
+test-output

@@ -1,7 +1,7 @@
-import { GenerateCommit, GetVersion, Help, Setup } from './commands';
-import type { Providers } from './interfaces';
-import { OpenAIProvider } from './providers';
-import { AppUtils, EnvUtils, InputUtils, ProcessUtils } from './utils';
+import { GenerateCommit, GetVersion, Help, Setup } from '@/commands';
+import type { Providers } from '@/interfaces';
+import { OpenAIProvider } from '@/providers';
+import { AppUtils, EnvUtils, InputUtils, ProcessUtils } from '@/utils';
 
 const inputUtils = new InputUtils();
 const appUtils = new AppUtils();

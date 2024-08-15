@@ -2,3 +2,7 @@ node_modules
 executables
 package-lock.json
 lib
+tmp/*
+!tmp/.gitkeep
+test-output
+.DS_Store

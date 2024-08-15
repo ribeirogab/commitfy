@@ -16,7 +16,15 @@
   ],
   "scripts": {
     "build": "tsup",
-    "publish:npm": "npm run build && npm publish"
+    "publish:npm": "npm run build && npm publish",
+    "cfy": "npm run build -- --silent && node bin/cli.js",
+    "vitest": "vitest --globals --config vitest.config.ts",
+    "test": "npm run vitest -- run",
+    "test:unit": "npm run vitest -- --project unit --run",
+    "test:integration": "npm run vitest -- --project integration --run",
+    "test:watch": "npm run vitest",
+    "test:coverage": "npm run vitest -- run --coverage",
+    "test:ci": "npm run vitest -- run --silent --coverage --reporter=junit --outputFile.junit=./test-output/junit.xml"
   },
   "bin": {
     "commitfy": "bin/cli.js",
@@ -36,9 +44,12 @@
   "devDependencies": {
     "@ribeirogab/eslint-config": "^2.0.1",
     "@types/node": "^22.1.0",
+    "@vitest/coverage-v8": "^2.0.5",
     "eslint": "^8.57.0",
     "tsup": "^8.2.4",
     "tsx": "^4.16.5",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.0.5"
   }
 }

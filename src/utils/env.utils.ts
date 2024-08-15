@@ -1,12 +1,15 @@
 import * as fs from 'node:fs';
 
-import type { Env, EnvUtils as EnvUtilsInterface } from '../interfaces';
-import type { AppUtils } from './app.utils';
+import type {
+  AppUtils,
+  Env,
+  EnvUtils as EnvUtilsInterface,
+} from '@/interfaces';
 
 export class EnvUtils implements EnvUtilsInterface {
   constructor(private readonly appUtils: AppUtils) {}
 
-  public get(): Env {
+  public variables(): Env {
     if (!fs.existsSync(this.appUtils.envFilePath)) {
       return {};
     }
@@ -24,9 +27,7 @@ export class EnvUtils implements EnvUtilsInterface {
   }
 
   public update(updates: Partial<Env>) {
-    const currentConfig = this.get();
-
-    const fileContent = Object.entries({ ...currentConfig, ...updates })
+    const fileContent = Object.entries({ ...this.variables(), ...updates })
       .map(([key, value]) => `${key}=${value}`)
       .join('\n');
 

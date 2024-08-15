@@ -23,7 +23,7 @@ export class OpenAIProvider implements Provider {
       return this.openai;
     }
 
-    const env = this.envUtils.get();
+    const env = this.envUtils.variables();
 
     if (!env.OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is required');
@@ -35,7 +35,7 @@ export class OpenAIProvider implements Provider {
   }
 
   public async setup(): Promise<void> {
-    const env = this.envUtils.get();
+    const env = this.envUtils.variables();
 
     try {
       const apiKey = await this.inputUtils.prompt({
@@ -52,11 +52,6 @@ export class OpenAIProvider implements Provider {
 
       this.envUtils.update({
         ...env,
-        OPENAI_API_KEY: apiKey,
-      });
-
-      this.envUtils.update({
-        ...env,
         OPENAI_N_COMMITS: Number(numberOfCommits),
         PROVIDER: ProviderEnum.OpenAI,
         OPENAI_API_KEY: apiKey,
@@ -65,11 +60,20 @@ export class OpenAIProvider implements Provider {
       // Ensure the OpenAI integration is working
       await this.test();
 
-      console.log('\x1b[32m✓\x1b[0m', 'OpenAI setup successfully completed.');
+      this.appUtils.logger.message(
+        '\x1b[32m✓\x1b[0m',
+        'OpenAI setup successfully completed.',
+      );
     } catch (error) {
       this.envUtils.update(env);
 
-      this.appUtils.logger.error('Failed to set up OpenAI.', error);
+      this.appUtils.logger.error(
+        'Failed to set up OpenAI.',
+        ...(error?.error
+          ? [`\nOpenAI error:`, error.error]
+          : [error.message || '']),
+      );
+
       process.exit(1);
     }
   }
@@ -83,7 +87,7 @@ export class OpenAIProvider implements Provider {
       this.checkRequiredEnvVars();
 
       const prompt = `Generate a concise and clear commit message using the commitizen format (e.g., feat, chore, refactor, etc.) for the following code changes. The message should be at most 72 characters long:`;
-      const n = Number(this.envUtils.get().OPENAI_N_COMMITS) || 2;
+      const n = Number(this.envUtils.variables().OPENAI_N_COMMITS) || 2;
 
       const chatCompletion = await this.client.chat.completions.create({
         messages: [
@@ -107,8 +111,9 @@ export class OpenAIProvider implements Provider {
     } catch (error) {
       this.appUtils.logger.error(
         'Failed to generate commit message.',
-        error?.error ? `\nOpenAI error:` : '',
-        error?.error ? error?.error : '',
+        ...(error?.error
+          ? [`\nOpenAI error:`, error.error]
+          : [error.message || '']),
       );
 
       process.exit(1);
@@ -116,11 +121,9 @@ export class OpenAIProvider implements Provider {
   }
 
   private checkRequiredEnvVars(): void {
-    const env = this.envUtils.get();
-
-    if (!env.OPENAI_API_KEY) {
+    if (!this.envUtils.variables().OPENAI_API_KEY) {
       this.appUtils.logger.error('OPENAI_API_KEY is required');
-      this.appUtils.logger.log("Run 'commitfy setup' to set up.");
+      this.appUtils.logger.message("Run 'commitfy setup' to set up.");
       process.exit(0);
     }
   }

@@ -7,6 +7,12 @@
     "target": "ES2021",
     "esModuleInterop": true,
     "allowJs": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["vitest/globals"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/tests/*": ["./tests/*"]
+    }
   }
 }
