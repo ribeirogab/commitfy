@@ -7,7 +7,6 @@ on:
 
 jobs:
   check:
-    if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/check.yml
 
   publish:
