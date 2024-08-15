@@ -8,6 +8,11 @@
     "esModuleInterop": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/tests/*": ["./tests/*"]
+    }
   }
 }

@@ -1,4 +1,4 @@
-import type { AppUtils } from '../interfaces';
+import type { AppUtils } from '@/interfaces';
 
 export class GetVersion {
   constructor(private appUtils: AppUtils) {}

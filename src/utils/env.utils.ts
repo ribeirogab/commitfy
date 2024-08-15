@@ -4,12 +4,12 @@ import type {
   AppUtils,
   Env,
   EnvUtils as EnvUtilsInterface,
-} from '../interfaces';
+} from '@/interfaces';
 
 export class EnvUtils implements EnvUtilsInterface {
   constructor(private readonly appUtils: AppUtils) {}
 
-  public get variables(): Env {
+  public variables(): Env {
     if (!fs.existsSync(this.appUtils.envFilePath)) {
       return {};
     }
@@ -27,7 +27,7 @@ export class EnvUtils implements EnvUtilsInterface {
   }
 
   public update(updates: Partial<Env>) {
-    const fileContent = Object.entries({ ...this.variables, ...updates })
+    const fileContent = Object.entries({ ...this.variables(), ...updates })
       .map(([key, value]) => `${key}=${value}`)
       .join('\n');
 

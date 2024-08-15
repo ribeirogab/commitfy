@@ -1,18 +1,18 @@
 import fs from 'node:fs';
 import path from 'path';
 
+import { makeAppUtilsFake } from '../../tests/fakes/utils';
 import { TEMP_DIRECTORY } from '../constants';
 import { EnvUtils as EnvUtilsInterface, ProviderEnum } from '../interfaces';
-import { makeFakeAppUtils } from './app.utils.spec';
 import { EnvUtils } from './env.utils';
 
 const ENV_FILE_PATH = path.join(TEMP_DIRECTORY, '.env');
 
 export const makeFakeEnvUtils = () =>
-  ({ update: vi.fn(), variables: {} } as EnvUtilsInterface);
+  ({ update: vi.fn(), variables: vi.fn() } as EnvUtilsInterface);
 
 const makeSut = () => {
-  const appUtils = makeFakeAppUtils();
+  const appUtils = makeAppUtilsFake();
 
   const envUtils = new EnvUtils(appUtils);
 
@@ -36,7 +36,7 @@ describe('EnvUtils', () => {
     it('should return an object with environment variables', () => {
       const { sut } = makeSut();
 
-      const variables = sut.variables;
+      const variables = sut.variables();
 
       expect(variables).toBeDefined();
       expect(typeof variables).toBe('object');
@@ -55,13 +55,15 @@ describe('EnvUtils', () => {
 
       sut.update(updates);
 
-      expect(Object.keys(sut.variables)).toEqual(Object.keys(updates));
-      expect(Object.values(sut.variables)).toEqual(Object.values(updates));
+      const variables = sut.variables();
+
+      expect(Object.keys(variables)).toEqual(Object.keys(updates));
+      expect(Object.values(variables)).toEqual(Object.values(updates));
     });
 
     it('should merge the updates with existing environment variables', () => {
       const { sut } = makeSut();
-      const initialVariables = sut.variables;
+      const initialVariables = sut.variables();
 
       const updates = {
         OPENAI_N_COMMITS: '5',
@@ -69,7 +71,7 @@ describe('EnvUtils', () => {
 
       sut.update(updates);
 
-      expect(sut.variables).toEqual({ ...initialVariables, ...updates });
+      expect(sut.variables()).toEqual({ ...initialVariables, ...updates });
     });
   });
 });

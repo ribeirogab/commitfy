@@ -6,10 +6,11 @@ import {
   type ProcessUtils,
   type Provider,
   type Providers,
-} from '../interfaces';
+} from '@/interfaces';
 
 export class GenerateCommit {
-  private readonly provider: Provider;
+  private readonly regeneratorText = '↻ regenerate';
+  private provider: Provider;
 
   constructor(
     private readonly providers: Providers,
@@ -17,11 +18,11 @@ export class GenerateCommit {
     private readonly processUtils: ProcessUtils,
     private readonly inputUtils: InputUtils,
     private readonly appUtils: AppUtils,
-  ) {
-    this.provider = this.providers[this.envUtils.variables.PROVIDER];
-  }
+  ) {}
 
   public async execute(): Promise<void> {
+    this.provider = this.providers[this.envUtils.variables().PROVIDER];
+
     if (!this.provider) {
       this.appUtils.logger.error('AI provider not set.');
 
@@ -44,12 +45,11 @@ export class GenerateCommit {
 
     const commits = await this.provider.generateCommitMessages({ diff });
     const oneLineCommits = commits.map((commit) => commit.split('\n')[0]);
-    const regenerateText = '↻ regenerate';
 
     const choices = [
       ...oneLineCommits,
       InputUtilsCustomChoiceEnum.Separator,
-      regenerateText,
+      this.regeneratorText,
     ];
 
     const response = await this.inputUtils.prompt({
@@ -58,7 +58,7 @@ export class GenerateCommit {
       choices,
     });
 
-    if (response === regenerateText) {
+    if (response === this.regeneratorText) {
       return this.execute();
     }
 

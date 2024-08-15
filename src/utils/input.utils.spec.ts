@@ -1,12 +1,12 @@
 import inquirer from 'inquirer';
 import type { Mock } from 'vitest';
 
+import { InputUtils } from './input.utils';
 import {
   InputPromptDto,
   InputTypeEnum,
   InputUtilsCustomChoiceEnum,
-} from '../interfaces';
-import { InputUtils } from './input.utils';
+} from '@/interfaces';
 
 vi.mock('inquirer');
 

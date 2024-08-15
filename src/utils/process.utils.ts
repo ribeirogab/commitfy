@@ -4,7 +4,7 @@ import type {
   AppUtils,
   ProcessUtilsExecOptions,
   ProcessUtils as ProcessUtilsInterface,
-} from '../interfaces';
+} from '@/interfaces';
 
 export class ProcessUtils implements ProcessUtilsInterface {
   constructor(private readonly appUtils: AppUtils) {}

@@ -1,4 +1,4 @@
-import { generateCommit, getVersion, help, setup } from './container';
+import { generateCommit, getVersion, help, setup } from '@/container';
 
 enum CommandEnum {
   GenerateCommit,

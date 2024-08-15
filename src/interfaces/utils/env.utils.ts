@@ -7,6 +7,6 @@ export type Env = {
 };
 
 export interface EnvUtils {
-  variables: Env;
+  variables(): Env;
   update(updates: Partial<Env>): void;
 }

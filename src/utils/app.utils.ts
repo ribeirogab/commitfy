@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-import { PACKAGE_JSON_PATH, USER_HOME_DIRECTORY } from '../constants';
-import { AppUtils as AppUtilsInterface } from '../interfaces';
+import { PACKAGE_JSON_PATH, USER_HOME_DIRECTORY } from '@/constants';
+import { AppUtils as AppUtilsInterface } from '@/interfaces';
 
 export class AppUtils implements AppUtilsInterface {
   public readonly projectConfigDirectory = path.resolve(

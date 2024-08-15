@@ -1,4 +1,4 @@
-import type { InputUtils, Provider, ProviderEnum } from '../interfaces';
+import type { InputUtils, Provider, ProviderEnum } from '@/interfaces';
 
 export class Setup {
   constructor(

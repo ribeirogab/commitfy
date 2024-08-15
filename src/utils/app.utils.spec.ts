@@ -1,24 +1,4 @@
-import path from 'node:path';
-
-import { TEMP_DIRECTORY } from '../constants';
-import { AppUtils as AppUtilsInterface } from '../interfaces';
 import { AppUtils } from './app.utils';
-
-const ENV_FILE_PATH = path.join(TEMP_DIRECTORY, '.env');
-
-export const makeFakeAppUtils = () =>
-  ({
-    projectConfigDirectory: TEMP_DIRECTORY,
-    envFilePath: ENV_FILE_PATH,
-    version: 'v1.0.0',
-    name: 'commitfy',
-    logger: {
-      message: vi.fn(),
-      error: vi.fn(),
-      warn: vi.fn(),
-      log: vi.fn(),
-    },
-  } as AppUtilsInterface);
 
 const makeSut = () => {
   const appUtils = new AppUtils();

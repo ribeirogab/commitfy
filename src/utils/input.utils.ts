@@ -5,7 +5,7 @@ import {
   InputTypeEnum,
   InputUtilsCustomChoiceEnum,
   type InputUtils as InputUtilsInterface,
-} from '../interfaces';
+} from '@/interfaces';
 
 export class InputUtils implements InputUtilsInterface {
   public async prompt(input: InputPromptDto) {
