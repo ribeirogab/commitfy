@@ -12,6 +12,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: check
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
     - name: Checkout code
