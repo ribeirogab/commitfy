@@ -1,0 +1,11 @@
+name: Pull request workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    if: ${{ github.ref_name == 'main' }}
+    uses: ./.github/workflows/check.yml
