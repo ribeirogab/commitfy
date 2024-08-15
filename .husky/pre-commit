@@ -1,0 +1,3 @@
+echo "[Husky] pre-commit"
+npm run test -- --silent
+npm run build
