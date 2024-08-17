@@ -1,10 +1,16 @@
+<div align="center">
+  <img src=".github/logo.png" alt="commitfy" width="150"/>
+</div>
+
 # commitfy
 
-> Make commit messages easier and faster using AI.
+> Generating **commits for you** in 1 second using AI. ✨
 
 ## Description
 
 `commitfy` is a tool designed to help developers generate efficient and consistent commit messages using artificial intelligence. `commitfy` ensures that your commit messages follow established standards and are clear and informative.
+
+![Commitfy Example](.github/cfy-example.png)
 
 ## Installation
 
