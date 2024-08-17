@@ -17,3 +17,7 @@ vitest.config.ts
 src
 tmp
 test-output
+
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
