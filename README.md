@@ -1,5 +1,5 @@
 <div align="center">
-  <img src=".github/logo.png" alt="commitfy" width="200"/>
+  <img src=".github/logo.png" alt="commitfy" width="180"/>
 </div>
 
 # commitfy
