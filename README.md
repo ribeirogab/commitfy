@@ -10,7 +10,7 @@
 
 `commitfy` is a tool designed to help developers generate efficient and consistent commit messages using artificial intelligence. `commitfy` ensures that your commit messages follow established standards and are clear and informative.
 
-![Commitfy Example](.github/cfy-example.png)
+![Commitfy Example](.github/cfy-example.gif)
 
 ## Installation
 
