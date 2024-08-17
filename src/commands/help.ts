@@ -22,7 +22,12 @@ export class Help {
       { path: '~/.commitfy', description: 'Directory for all configs.' },
       {
         path: '~/.commitfy/.env',
-        description: 'File for environment variables.',
+        description: 'Environment variables and configurations.',
+      },
+      {
+        path: '~/.commitfy/.commitfyignore',
+        description:
+          'Ignoring specific files and directories (`.commitfyignore` can be created in your Git repository).',
       },
     ];
 
@@ -35,7 +40,7 @@ export class Help {
     console.log('\nDirectories and files:');
 
     directoriesAndFiles.forEach(({ path, description }) => {
-      console.log(`  ${path.padEnd(25)} ${description}`);
+      console.log(`  ${path.padEnd(30)} ${description}`);
     });
 
     console.log('\nProviders:');

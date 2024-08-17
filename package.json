@@ -1,6 +1,6 @@
 {
   "name": "commitfy",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "repository": "https://github.com/ribeirogab/commitfy.git",
   "author": "ribeirogab <ribeirogabx@gmail.com>",
