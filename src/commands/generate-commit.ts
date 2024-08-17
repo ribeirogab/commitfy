@@ -157,9 +157,16 @@ export class GenerateCommit {
       process.exit(0);
     }
 
-    const diff = await this.processUtils.exec('git diff --cached', {
-      showStdout: false,
-    });
+    const excludeParams = this.appUtils.ignoreFiles
+      .map((file) => `':(exclude)${file}'`)
+      .join(' ');
+
+    const diff = await this.processUtils.exec(
+      `git diff --cached ${excludeParams}`,
+      {
+        showStdout: false,
+      },
+    );
 
     if (!diff) {
       this.appUtils.logger.error('No changes to commit.');

@@ -15,6 +15,11 @@ export class AppUtils implements AppUtilsInterface {
     '.env',
   );
 
+  public readonly ignoreFilePath = path.resolve(
+    this.projectConfigDirectory,
+    '.commitfyignore',
+  );
+
   public readonly logger: AppUtilsInterface['logger'] = {
     error: (message, ...params) =>
       console.error(`${this.name}:`, message, ...params),
@@ -29,6 +34,14 @@ export class AppUtils implements AppUtilsInterface {
     if (!fs.existsSync(this.projectConfigDirectory)) {
       fs.mkdirSync(this.projectConfigDirectory);
     }
+
+    if (!fs.existsSync(this.ignoreFilePath)) {
+      fs.writeFileSync(
+        this.ignoreFilePath,
+        ['package-lock.json', 'yarn.lock', 'node_modules'].join('\n'),
+        'utf-8',
+      );
+    }
   }
 
   public get name() {
@@ -37,6 +50,20 @@ export class AppUtils implements AppUtilsInterface {
 
   public get version() {
     return this.packageJson.version;
+  }
+
+  public get ignoreFiles(): string[] {
+    if (fs.existsSync('.commitfyignore')) {
+      return fs
+        .readFileSync('.commitfyignore', 'utf-8')
+        .split('\n')
+        .filter((line) => line.trim() !== '');
+    }
+
+    return fs
+      .readFileSync(this.ignoreFilePath, 'utf-8')
+      .split('\n')
+      .filter((line) => line.trim() !== '');
   }
 
   private get packageJson(): { version: string; name: string } {

@@ -7,6 +7,7 @@ const ENV_FILE_PATH = path.join(TEMP_DIRECTORY, '.env');
 
 export const makeAppUtilsFake = () =>
   ({
+    ignoreFiles: ['package-lock.json', 'yarn.lock', 'node_modules'],
     projectConfigDirectory: TEMP_DIRECTORY,
     envFilePath: ENV_FILE_PATH,
     version: '1.0.0',

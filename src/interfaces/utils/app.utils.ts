@@ -11,6 +11,7 @@ type LoggerFunction = (
 
 export interface AppUtils {
   projectConfigDirectory: string;
+  ignoreFiles: string[];
   envFilePath: string;
   version: string;
   name: string;
