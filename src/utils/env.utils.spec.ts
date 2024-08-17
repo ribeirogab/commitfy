@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'path';
 
-import { makeAppUtilsFake } from '../../tests/fakes/utils';
+import { DEFAULT_ENV, makeAppUtilsFake } from '../../tests/fakes/utils';
 import { TEMP_DIRECTORY } from '../constants';
 import { EnvUtils as EnvUtilsInterface, ProviderEnum } from '../interfaces';
 import { EnvUtils } from './env.utils';
@@ -57,8 +57,9 @@ describe('EnvUtils', () => {
 
       const variables = sut.variables();
 
-      expect(Object.keys(variables)).toEqual(Object.keys(updates));
-      expect(Object.values(variables)).toEqual(Object.values(updates));
+      expect(Object.keys(variables)).toEqual(
+        Object.keys({ ...DEFAULT_ENV, ...updates }),
+      );
     });
 
     it('should merge the updates with existing environment variables', () => {

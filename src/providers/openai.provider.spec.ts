@@ -4,6 +4,7 @@ import type { ChatCompletion } from 'openai/resources';
 import { OpenAIProvider } from './openai.provider';
 import { ProviderEnum } from '@/interfaces';
 import {
+  DEFAULT_ENV,
   makeAppUtilsFake,
   makeEnvUtilsFake,
   makeInputUtilsFake,
@@ -53,11 +54,11 @@ describe('OpenAIProvider', () => {
     it('should throw an error if OPENAI_API_KEY is not set', async () => {
       const { sut, envUtils, appUtils } = makeSut();
 
-      vi.spyOn(envUtils, 'variables').mockReturnValueOnce({});
+      vi.spyOn(envUtils, 'variables').mockReturnValueOnce(DEFAULT_ENV);
       const loggerErrorSpy = vi.spyOn(appUtils.logger, 'error');
 
       await expect(
-        sut.generateCommitMessages({ diff: 'some changes' }),
+        sut.generateCommitMessages({ diff: 'some changes', prompt: 'prompt' }),
       ).rejects.toThrow();
 
       expect(loggerErrorSpy).toHaveBeenCalledWith('OPENAI_API_KEY is required');
@@ -67,6 +68,7 @@ describe('OpenAIProvider', () => {
       const { sut, envUtils, openAIClient } = makeSut();
 
       vi.spyOn(envUtils, 'variables').mockReturnValue({
+        ...DEFAULT_ENV,
         OPENAI_API_KEY: 'valid-api-key',
         OPENAI_N_COMMITS: 2,
       });
@@ -84,6 +86,7 @@ describe('OpenAIProvider', () => {
 
       const commitMessages = await sut.generateCommitMessages({
         diff: 'some changes',
+        prompt: 'prompt',
       });
 
       expect(commitMessages).toEqual([
@@ -96,6 +99,7 @@ describe('OpenAIProvider', () => {
       const { sut, envUtils, appUtils, openAIClient } = makeSut();
 
       vi.spyOn(envUtils, 'variables').mockReturnValue({
+        ...DEFAULT_ENV,
         OPENAI_API_KEY: 'valid-api-key',
         OPENAI_N_COMMITS: 2,
       });
@@ -107,7 +111,7 @@ describe('OpenAIProvider', () => {
       );
 
       await expect(
-        sut.generateCommitMessages({ diff: 'some changes' }),
+        sut.generateCommitMessages({ diff: 'some changes', prompt: 'prompt' }),
       ).rejects.toThrow('process.exit called');
 
       expect(loggerErrorSpy).toHaveBeenCalledWith(
@@ -122,6 +126,7 @@ describe('OpenAIProvider', () => {
       const { sut, envUtils, inputUtils, appUtils } = makeSut();
 
       vi.spyOn(envUtils, 'variables').mockReturnValueOnce({
+        ...DEFAULT_ENV,
         OPENAI_API_KEY: '',
       });
 
@@ -138,6 +143,7 @@ describe('OpenAIProvider', () => {
       await sut.setup();
 
       expect(envUtils.update).toHaveBeenCalledWith({
+        ...DEFAULT_ENV,
         OPENAI_API_KEY: 'new-api-key',
         OPENAI_N_COMMITS: 3,
         PROVIDER: ProviderEnum.OpenAI,
@@ -155,6 +161,7 @@ describe('OpenAIProvider', () => {
       const { sut, envUtils, inputUtils, appUtils } = makeSut();
 
       vi.spyOn(envUtils, 'variables').mockReturnValueOnce({
+        ...DEFAULT_ENV,
         OPENAI_API_KEY: '',
       });
 
