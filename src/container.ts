@@ -12,7 +12,7 @@ const providers: Providers = {
   openai: new OpenAIProvider(envUtils, inputUtils, appUtils),
 };
 
-const setup = new Setup(providers, inputUtils);
+const setup = new Setup(providers, inputUtils, envUtils);
 
 const help = new Help();
 

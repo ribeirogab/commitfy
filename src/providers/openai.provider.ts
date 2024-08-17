@@ -3,11 +3,13 @@ import { OpenAI } from 'openai';
 import {
   type AppUtils,
   type EnvUtils,
+  type GenerateCommitMessagesDto,
   InputTypeEnum,
   type InputUtils,
   type Provider,
   ProviderEnum,
 } from '../interfaces';
+import { DEFAULT_N_COMMITS } from '@/constants';
 
 export class OpenAIProvider implements Provider {
   private openai: OpenAI;
@@ -32,6 +34,12 @@ export class OpenAIProvider implements Provider {
     this.openai = new OpenAI({ apiKey: env.OPENAI_API_KEY });
 
     return this.openai;
+  }
+
+  private get nCommits() {
+    return (
+      Number(this.envUtils.variables().OPENAI_N_COMMITS) || DEFAULT_N_COMMITS
+    );
   }
 
   public async setup(): Promise<void> {
@@ -79,15 +87,12 @@ export class OpenAIProvider implements Provider {
   }
 
   public async generateCommitMessages({
+    n = this.nCommits,
+    prompt,
     diff,
-  }: {
-    diff: string;
-  }): Promise<string[]> {
+  }: GenerateCommitMessagesDto): Promise<string[]> {
     try {
       this.checkRequiredEnvVars();
-
-      const prompt = `Generate a concise and clear commit message using the commitizen format (e.g., feat, chore, refactor, etc.) for the following code changes. The message should be at most 72 characters long:`;
-      const n = Number(this.envUtils.variables().OPENAI_N_COMMITS) || 2;
 
       const chatCompletion = await this.client.chat.completions.create({
         messages: [

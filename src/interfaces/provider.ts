@@ -2,8 +2,14 @@ export enum ProviderEnum {
   OpenAI = 'openai',
 }
 
+export type GenerateCommitMessagesDto = {
+  prompt: string;
+  diff: string;
+  n?: number;
+};
+
 export interface Provider {
-  generateCommitMessages({ diff }: { diff: string }): Promise<string[]>;
+  generateCommitMessages(dto: GenerateCommitMessagesDto): Promise<string[]>;
   setup(): Promise<void>;
 }
 

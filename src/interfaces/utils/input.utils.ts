@@ -20,7 +20,7 @@ export interface Input extends DefaultInput {
 export interface InputList extends DefaultInput {
   choices: (
     | string
-    | { name: string; disabled: string }
+    | { name: string; value: string; short?: string }
     | InputUtilsCustomChoiceEnum
   )[];
   type: 'list';
