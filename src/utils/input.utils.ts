@@ -8,7 +8,7 @@ import {
 } from '@/interfaces';
 
 export class InputUtils implements InputUtilsInterface {
-  public async prompt(input: InputPromptDto) {
+  public async prompt<T = string>(input: InputPromptDto) {
     try {
       const promptDto = [{ name: 'data', ...input }];
 
@@ -24,7 +24,7 @@ export class InputUtils implements InputUtilsInterface {
         Object.assign(promptDto[0], { choices: choicesWithCustom });
       }
 
-      const { data } = await inquirer.prompt(promptDto as never);
+      const { data } = await inquirer.prompt<{ data: T }>(promptDto as never);
 
       return data;
     } catch (error) {

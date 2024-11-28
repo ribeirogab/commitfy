@@ -29,5 +29,5 @@ export interface InputList extends DefaultInput {
 export type InputPromptDto = Input | InputList;
 
 export interface InputUtils {
-  prompt(input: InputPromptDto): Promise<string>;
+  prompt<T = string>(input: InputPromptDto): Promise<T>;
 }
