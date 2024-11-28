@@ -132,6 +132,7 @@ describe('OpenAIProvider', () => {
 
       vi.spyOn(inputUtils, 'prompt')
         .mockResolvedValueOnce('new-api-key')
+        .mockResolvedValueOnce('chat-model')
         .mockResolvedValueOnce('3');
 
       const loggerMessageSpy = vi.spyOn(appUtils.logger, 'message');
@@ -144,6 +145,7 @@ describe('OpenAIProvider', () => {
 
       expect(envUtils.update).toHaveBeenCalledWith({
         ...DEFAULT_ENV,
+        OPENAI_CHAT_MODEL: 'chat-model',
         OPENAI_API_KEY: 'new-api-key',
         OPENAI_N_COMMITS: 3,
         PROVIDER: ProviderEnum.OpenAI,

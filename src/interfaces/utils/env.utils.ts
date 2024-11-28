@@ -1,11 +1,15 @@
+import type { ChatModel } from 'openai/resources';
+
 import type { SetupContextEnum } from '../commands/setup';
 import type { ProviderEnum } from '../provider';
 
 export type Env = {
   PROVIDER?: ProviderEnum;
+  SETUP_CONTEXT: SetupContextEnum;
+
   OPENAI_API_KEY?: string;
   OPENAI_N_COMMITS?: number | string;
-  SETUP_CONTEXT: SetupContextEnum;
+  OPENAI_CHAT_MODEL?: ChatModel;
 
   CONFIG_COMMIT_LANGUAGE: string;
   CONFIG_MAX_COMMIT_CHARACTERS: string | number;
