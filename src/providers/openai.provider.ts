@@ -1,7 +1,9 @@
 import { OpenAI } from 'openai';
+import type { ChatModel } from 'openai/resources';
 
 import {
   type AppUtils,
+  type Env,
   type EnvUtils,
   type GenerateCommitMessagesDto,
   InputTypeEnum,
@@ -13,6 +15,16 @@ import { DEFAULT_N_COMMITS } from '@/constants';
 
 export class OpenAIProvider implements Provider {
   private openai: OpenAI;
+
+  private readonly defaultChatModel: ChatModel = 'gpt-4o-mini';
+  private readonly chatModels: ChatModel[] = [
+    'gpt-4o',
+    'gpt-4o-mini',
+    'gpt-4-turbo',
+    'gpt-4-vision-preview',
+    'gpt-4',
+    'gpt-3.5-turbo',
+  ];
 
   constructor(
     private readonly envUtils: EnvUtils,
@@ -52,6 +64,18 @@ export class OpenAIProvider implements Provider {
         type: InputTypeEnum.Input,
       });
 
+      const chatModel = await this.inputUtils.prompt<ChatModel>({
+        default: env.OPENAI_CHAT_MODEL || this.defaultChatModel,
+        message:
+          'Choose your OpenAI language model (https://platform.openai.com/docs/models):',
+        type: 'list',
+        choices: this.chatModels.map((model) => ({
+          value: model,
+          short: model,
+          name: model,
+        })),
+      });
+
       const numberOfCommits = await this.inputUtils.prompt({
         default: env.OPENAI_N_COMMITS ? String(env.OPENAI_N_COMMITS) : '2',
         message: 'Enter the number of commits to generate:',
@@ -62,6 +86,7 @@ export class OpenAIProvider implements Provider {
         ...env,
         OPENAI_N_COMMITS: Number(numberOfCommits),
         PROVIDER: ProviderEnum.OpenAI,
+        OPENAI_CHAT_MODEL: chatModel,
         OPENAI_API_KEY: apiKey,
       });
 
@@ -92,14 +117,16 @@ export class OpenAIProvider implements Provider {
     diff,
   }: GenerateCommitMessagesDto): Promise<string[]> {
     try {
-      this.checkRequiredEnvVars();
+      const env = this.envUtils.variables();
+
+      this.checkRequiredEnvVars(env);
 
       const chatCompletion = await this.client.chat.completions.create({
         messages: [
           { role: 'user', content: prompt },
-          { role: 'user', content: diff },
+          { role: 'user', content: `git diff:\n${diff}` },
         ],
-        model: 'gpt-3.5-turbo',
+        model: env.OPENAI_CHAT_MODEL || this.defaultChatModel,
         max_tokens: 50,
         n,
       });
@@ -125,8 +152,8 @@ export class OpenAIProvider implements Provider {
     }
   }
 
-  private checkRequiredEnvVars(): void {
-    if (!this.envUtils.variables().OPENAI_API_KEY) {
+  private checkRequiredEnvVars(env: Env): void {
+    if (!env.OPENAI_API_KEY) {
       this.appUtils.logger.error('OPENAI_API_KEY is required');
       this.appUtils.logger.message("Run 'commitfy setup' to set up.");
       process.exit(0);
